@@ -59,6 +59,10 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+jest.mock("../../package.json", () => {
+  return { version: "0.5" };
+});
+
 describe("generateAccessYaml", () => {
   const targetDirectory = "hld-repository";
   const serviceDirectory = "my-service";

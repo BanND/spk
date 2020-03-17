@@ -2,6 +2,7 @@ import yaml from "js-yaml";
 import { VM_IMAGE } from "../lib/constants";
 import {
   BUILD_REPO_NAME,
+  getVersionMessage,
   generateYamlScript,
   IMAGE_REPO,
   IMAGE_TAG,
@@ -201,8 +202,9 @@ export const createTestServiceBuildAndUpdatePipelineYaml = (
   // tslint:enable: object-literal-sort-keys
 
   return asString
-    ? yaml.safeDump(data, { lineWidth: Number.MAX_SAFE_INTEGER })
-    : data;
+    ? getVersionMessage() +
+        yaml.safeDump(data, { lineWidth: Number.MAX_SAFE_INTEGER })
+    : getVersionMessage() + data;
 };
 
 export const createTestMaintainersYaml = (
@@ -376,8 +378,9 @@ export const createTestHldLifecyclePipelineYaml = (
   // tslint:enable: object-literal-sort-keys
 
   return asString
-    ? yaml.safeDump(data, { lineWidth: Number.MAX_SAFE_INTEGER })
-    : data;
+    ? getVersionMessage() +
+        yaml.safeDump(data, { lineWidth: Number.MAX_SAFE_INTEGER })
+    : getVersionMessage() + data;
 };
 
 export const createTestHldAzurePipelinesYaml = (
@@ -468,8 +471,9 @@ export const createTestHldAzurePipelinesYaml = (
   // tslint:enable: object-literal-sort-keys
 
   return asString
-    ? yaml.safeDump(data, { lineWidth: Number.MAX_SAFE_INTEGER })
-    : data;
+    ? getVersionMessage() +
+        yaml.safeDump(data, { lineWidth: Number.MAX_SAFE_INTEGER })
+    : getVersionMessage() + data;
 };
 
 export const createTestComponentYaml = (

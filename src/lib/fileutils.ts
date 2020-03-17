@@ -8,6 +8,7 @@ import {
   PROJECT_PIPELINE_FILENAME,
   RENDER_HLD_PIPELINE_FILENAME,
   SERVICE_PIPELINE_FILENAME,
+  VERSION_MESSAGE,
   VM_IMAGE
 } from "../lib/constants";
 import { logger } from "../logger";
@@ -154,9 +155,11 @@ export const generateServiceBuildAndUpdatePipelineYaml = (
     ringBranches,
     variableGroups
   );
+
   fs.writeFileSync(
     pipelineYamlFullPath,
-    yaml.safeDump(buildYaml, { lineWidth: Number.MAX_SAFE_INTEGER }),
+    getVersionMessage() +
+      yaml.safeDump(buildYaml, { lineWidth: Number.MAX_SAFE_INTEGER }),
     "utf8"
   );
 };
@@ -416,7 +419,8 @@ export const updateTriggerBranchesForServiceBuildAndUpdatePipeline = (
 
   fs.writeFileSync(
     pipelineYamlFullPath,
-    yaml.safeDump(buildPipelineYaml, { lineWidth: Number.MAX_SAFE_INTEGER }),
+    getVersionMessage() +
+      yaml.safeDump(buildPipelineYaml, { lineWidth: Number.MAX_SAFE_INTEGER }),
     "utf8"
   );
 };
@@ -614,8 +618,10 @@ const manifestGenerationPipelineYaml = (): string => {
   };
   // tslint:enable: object-literal-sort-keys
   // tslint:enable: no-empty
-
-  return yaml.safeDump(pipelineYaml, { lineWidth: Number.MAX_SAFE_INTEGER });
+  return (
+    getVersionMessage() +
+    yaml.safeDump(pipelineYaml, { lineWidth: Number.MAX_SAFE_INTEGER })
+  );
 };
 
 /**
@@ -747,7 +753,10 @@ const hldLifecyclePipelineYaml = (): string => {
   // tslint:enable: object-literal-sort-keys
   // tslint:enable: no-empty
 
-  return yaml.safeDump(pipelineyaml, { lineWidth: Number.MAX_SAFE_INTEGER });
+  return (
+    getVersionMessage() +
+    yaml.safeDump(pipelineyaml, { lineWidth: Number.MAX_SAFE_INTEGER })
+  );
 };
 
 /**
@@ -829,4 +838,11 @@ export const generateDockerfile = (targetDirectory: string): void => {
     "FROM alpine\nRUN echo 'hello world'",
     "utf8"
   );
+};
+
+/**
+ * Returns the spk version message
+ */
+export const getVersionMessage = (): string => {
+  return VERSION_MESSAGE + require("../../package.json").version + "\n";
 };
